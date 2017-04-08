@@ -38,6 +38,7 @@ namespace BathroomStalls {
 				var res = LastTry(testLine[0], testLine[1]);
 				Console.Out.WriteLine($"Case #{testIdx}: {res.Item1} {res.Item2}");
 			}
+			Console.ReadLine();
 		}
 
 		private static Tuple<ulong, ulong> LastTry(string stallsCount, string visitorsCount) {
@@ -52,6 +53,13 @@ namespace BathroomStalls {
 		/// half if original interval size is even.
 		/// In our calculation we divide on two and then substract 1 from smaller part
 		/// if original interval size was odd.
+		/// To minify the calculation time we don't count each visitor data, but divide
+		/// them by droups. At the same time we have N stall intervals with same maximum
+		/// size. So we perform splitting for all them and change the current visitor index
+		/// by N. If visitor index becomes bigger than total visitors count, our last visitor
+		/// is in the group. All visitors in the group have same min and max intervals because
+		/// source interval for them is the same. After each splitting we get 2*N new
+		/// intervals what means, that algorithm complexity will be Log(N) instead of N.
 		/// </summary>
 		/// <param name="stallsCount">Stalls quantity (N)</param>
 		/// <param name="visitorsCount">Visitors quantity.</param>
@@ -62,31 +70,29 @@ namespace BathroomStalls {
 			};
 
 			ulong minInterval = 0, maxInterval = 0;
-			for(ulong visitor = 0; visitor < visitorsCount; visitor++) {
+			ulong visitor = 0;
+			while(visitor < visitorsCount) {
 				ulong maxKey = _spaces.Keys.Max();
+				var mq = _spaces[maxKey];
+				visitor += mq;
+				_spaces.Remove(maxKey);
+
 				maxInterval = maxKey / 2;
 				minInterval = (maxKey % 2 > 0) ? maxInterval : maxInterval - 1;
 				if(_spaces.ContainsKey(maxInterval)) {
-					var newBigger = _spaces[maxInterval] + 1;
+					var newBigger = _spaces[maxInterval] + mq;
 					_spaces[maxInterval] = newBigger;
 				} else {
-					_spaces.Add(maxInterval, 1);
+					_spaces.Add(maxInterval, mq);
 				}
 				if(_spaces.ContainsKey(minInterval)) {
-					var newSmaller = _spaces[minInterval] + 1;
+					var newSmaller = _spaces[minInterval] + mq;
 					_spaces[minInterval] = newSmaller;
 				} else {
-					_spaces.Add(minInterval, 1);
+					_spaces.Add(minInterval, mq);
 				}
 
-				var mq = _spaces[maxKey];
-				if(mq == 1) {
-					_spaces.Remove(maxKey);
-				} else {
-					_spaces[maxKey] = mq - 1;
-				}
 			}
-
 			return new Tuple<ulong, ulong>(maxInterval, minInterval);
 		}
 
