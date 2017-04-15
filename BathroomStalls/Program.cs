@@ -35,13 +35,13 @@ namespace BathroomStalls {
 			var testCount = int.Parse(Console.In.ReadLine());
 			for(var testIdx = 1; testIdx <= testCount; testIdx++) {
 				var testLine = Console.In.ReadLine().Split(' ');
-				var res = LastTry(testLine[0], testLine[1]);
+				var res = LastVisitor(testLine[0], testLine[1]);
 				Console.Out.WriteLine($"Case #{testIdx}: {res.Item1} {res.Item2}");
 			}
 			Console.ReadLine();
 		}
 
-		private static Tuple<ulong, ulong> LastTry(string stallsCount, string visitorsCount) {
+		private static Tuple<ulong, ulong> LastVisitor(string stallsCount, string visitorsCount) {
 			return LastTry(ulong.Parse(stallsCount), ulong.Parse(visitorsCount));
 		}
 
