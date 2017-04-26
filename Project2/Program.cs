@@ -56,7 +56,7 @@ namespace Project2 {
 			}
 
 			var prevMane = currentIndex == 0 ? ' ' : stalls[currentIndex - 1];
-			var possibleManes = PriorityOrder(unicornStack, prevMane);
+			var possibleManes = NextNeighbors(unicornStack, prevMane);
 
 			if(possibleManes.Length == 0) {
 				return false;
@@ -70,6 +70,14 @@ namespace Project2 {
 				stalls[currentIndex] = ' ';
 			}
 			return false;
+		}
+
+		static char[] NextNeighbors(Dictionary<char, int> unicornStack, char m) {
+			var possible = GetPossibleNeighbors(m);
+			var maxV = unicornStack.Where(x => possible.Contains(x.Key)).Max(x => x.Value);
+			return possible
+				.Where(x => unicornStack[x] == maxV)
+				.ToArray();
 		}
 
 		static char[] PriorityOrder(Dictionary<char, int> unicornStack, char m) {
