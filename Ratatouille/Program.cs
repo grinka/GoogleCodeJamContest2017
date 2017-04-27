@@ -41,21 +41,8 @@ namespace Ratatouille {
 			var N = int.Parse(tLine[0]); // number of ingridients
 			var P = int.Parse(tLine[1]); // number of packages
 			var nValuesLine = Console.In.ReadLine().Split(' ');
-			var nValues = nValuesLine.Select(x => int.Parse(x)).ToArray();
-			var pValues = new Supply[N];
-			var foundMatches = 0;
-			for(var i = 0; i < N; i++) {
-				var pValuesLine = Console.In.ReadLine().Split(' ');
-				pValues[i] = new Supply();
-				var plist = new List<Package>();
-				for(var j = 0; j < P; j++) {
-					var package = new Package(int.Parse(pValuesLine[j]), nValues[i]);
-					plist.Add(package);
-				}
-				foreach(var p in plist.OrderByDescending(x => x.MinP)) {
-					pValues[i].Packages.Push(p);
-				}
-			}
+			int foundMatches = 0;
+			var pValues = PreparePValues(N, P, nValuesLine);
 
 			if(N == 1) {
 				Console.WriteLine("1");
@@ -77,9 +64,27 @@ namespace Ratatouille {
 					}
 				}
 			}
-
 			Console.Out.WriteLine($"Case #{testIdx}: {foundMatches}");
+		}
 
+		private static Supply[] PreparePValues(int N, int P, string[] nValuesLine) {
+			var nValues = nValuesLine.Select(x => int.Parse(x)).ToArray();
+			var pValues = new Supply[N];
+			for(var i = 0; i < N; i++) {
+				var pValuesLine = Console.In.ReadLine().Split(' ');
+				pValues[i] = new Supply();
+				var plist = new List<Package>();
+				for(var j = 0; j < P; j++) {
+					var package = new Package(int.Parse(pValuesLine[j]), nValues[i]);
+					if(package.MinP <= package.MaxP) {
+						plist.Add(package);
+					}
+				}
+				foreach(var p in plist.OrderByDescending(x => x.MaxP)) {
+					pValues[i].Packages.Push(p);
+				}
+			}
+			return pValues;
 		}
 
 		static bool InSame(Package x, Package y) {
