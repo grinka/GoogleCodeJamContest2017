@@ -6,7 +6,7 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{C74E2981-0959-4231-BBC0-3508A04FB41C}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>TidyNumbers</RootNamespace>
+    <RootNamespace>CodeJam.TidyNumbers</RootNamespace>
     <AssemblyName>TidyNumbers</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>

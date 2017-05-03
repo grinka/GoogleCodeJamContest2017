@@ -2,12 +2,9 @@
 /// Google CodeJam Contest.
 /// Round 1B: Problem B. Stable Neigh-bors
 /// </summary>
-namespace StableNeighbors {
+namespace CodeJam.StableNeighBors {
 	using System;
-	using System.Collections.Generic;
 	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
 
 	class Program {
 

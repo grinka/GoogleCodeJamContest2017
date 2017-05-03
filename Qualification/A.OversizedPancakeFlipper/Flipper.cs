@@ -1,7 +1,7 @@
 ﻿/// <summary>
 /// Performs the pancake flipping process and calculates the result.
 /// </summary>
-namespace OversizedPancakeFlipper {
+namespace CodeJam.OversizedPancakeFlipper {
 	using System.Text;
 	internal class Flipper {
 		/// <summary>

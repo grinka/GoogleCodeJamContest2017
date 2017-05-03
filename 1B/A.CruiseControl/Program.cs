@@ -2,12 +2,9 @@
 /// Google CodeJam Contest.
 /// Round 1B: Problem A. Steed 2: Cruise Control
 /// </summary>
-namespace Project1 {
+namespace CodeJam.CruiseControl {
 	using System;
-	using System.Collections.Generic;
-	using System.Linq;
-	using System.Text;
-	using System.Threading.Tasks;
+
 	class Program {
 		static void Main(string[] args) {
 			var testQty = int.Parse(Console.In.ReadLine());

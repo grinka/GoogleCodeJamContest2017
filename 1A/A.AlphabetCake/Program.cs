@@ -1,6 +1,5 @@
-﻿using System;
-
-namespace AlphabetCake {
+﻿namespace CodeJam.AlphabetCake {
+	using System;
 	class Program {
 		static void Main(string[] args) {
 			var tCount = int.Parse(Console.In.ReadLine());

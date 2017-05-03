@@ -25,7 +25,7 @@
 /// 
 /// Application expects all the data in correct format.
 /// </summary>
-namespace BathroomStalls {
+namespace CodeJam.BathroomStalls {
 	using System;
 	using System.Collections.Generic;
 	using System.Linq;

@@ -3,7 +3,7 @@
 /// Task: Oversized Pancake Flipper.
 /// The application expects all the data to be in correct format.
 /// </summary>
-namespace OversizedPancakeFlipper {
+namespace CodeJam.OversizedPancakeFlipper {
 	using System;
 
 	class Program {

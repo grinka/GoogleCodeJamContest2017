@@ -5,7 +5,7 @@
 /// File contains two versions of the algorithm - Brute-force, applicable for small numbers 
 /// and "Smmart" - it works with string.
 /// </summary>
-namespace TidyNumbers {
+namespace CodeJam.TidyNumbers {
 	using System;
 	using System.Text;
 

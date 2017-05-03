@@ -6,8 +6,8 @@
     <Platform Condition=" '$(Platform)' == '' ">AnyCPU</Platform>
     <ProjectGuid>{686125B0-381F-47AB-AA41-EBA0FBC9115F}</ProjectGuid>
     <OutputType>Exe</OutputType>
-    <RootNamespace>Project2</RootNamespace>
-    <AssemblyName>Project2</AssemblyName>
+    <RootNamespace>CodeJam.StableNeighBors</RootNamespace>
+    <AssemblyName>StableNeighBors</AssemblyName>
     <TargetFrameworkVersion>v4.5.2</TargetFrameworkVersion>
     <FileAlignment>512</FileAlignment>
     <AutoGenerateBindingRedirects>true</AutoGenerateBindingRedirects>
