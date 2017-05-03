@@ -44,7 +44,7 @@ namespace OversizedPancakeFlipper {
 					}
 				}
 			}
-			for(var i=_s.Length - _size; i < _s.Length; i++) {
+			for(var i = _s.Length - _size; i < _s.Length; i++) {
 				if(_s[i] == '-') {
 					return -1;
 				}
