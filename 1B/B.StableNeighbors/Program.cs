@@ -11,6 +11,7 @@ namespace StableNeighbors {
 
 	class Program {
 
+		static char[] colorNames = new char[] { 'R', 'O', 'Y', 'G', 'B', 'V' };
 		// i'd replace dictionary with integer array using this enum if i have time
 		private enum ManeColors {
 			R = 0, O = 1, Y = 2, G = 3, B = 4, V = 5
@@ -19,7 +20,7 @@ namespace StableNeighbors {
 		static void Main(string[] args) {
 			var testQty = int.Parse(Console.In.ReadLine());
 			for(var t = 1; t <= testQty; t++) {
-				ProcessOneTest(t);
+				ProcessOneTestSmall(t);
 			}
 			//DisplayEnter();
 		}
@@ -30,66 +31,43 @@ namespace StableNeighbors {
 			Console.ReadLine();
 		}
 
-		static void ProcessOneTest(int testIdx) {
+		static void ProcessOneTestSmall(int testIdx) {
 			var l = Console.In.ReadLine().Split(' ');
 			var N = int.Parse(l[0]);
 			var stalls = new char[N];
-			var unicornStack = new Dictionary<char, int> {
-				{ 'R', int.Parse(l[1]) },
-				{ 'O', int.Parse(l[2]) },
-				{ 'Y', int.Parse(l[3]) },
-				{ 'G', int.Parse(l[4]) },
-				{ 'B', int.Parse(l[5]) },
-				{ 'V', int.Parse(l[6]) }
-			};
-			var res = FindNextNeighbor(unicornStack, stalls, 0);
-			if(res) {
-				Console.Out.WriteLine($"Case #{testIdx}: {new string(stalls)}");
-			} else {
-				Console.Out.WriteLine($"Case #{testIdx}: IMPOSSIBLE");
-			}
-		}
-
-		static bool FindNextNeighbor(Dictionary<char, int> unicornStack, char[] stalls, int currentIndex) {
-			if(currentIndex == stalls.Length) {
-				return (CanBeNeighbor(stalls[currentIndex - 1], stalls[0]));
+			var stack = new int[6];
+			for(var i = 0; i < 6; i++) {
+				stack[i] = int.Parse(l[i + 1]);
 			}
 
-			var prevMane = currentIndex == 0 ? ' ' : stalls[currentIndex - 1];
-			var possibleManes = NextNeighbors(unicornStack, prevMane);
+			Console.Out.WriteLine($"Case #{testIdx}: {BuildNeighborsSmall(stack, N)}");
+		}
 
-			if(possibleManes.Length == 0) {
-				return false;
+		static string BuildNeighborsSmall(int[] stack, int N) {
+			if(stack.Max() > N / 2) {
+				return "IMPOSSIBLE";
 			}
-			foreach(var m in possibleManes) {
-				unicornStack[m]--;
-				stalls[currentIndex] = m;
-				var tryIt = FindNextNeighbor(unicornStack, stalls, currentIndex + 1);
-				if(tryIt) return true;
-				unicornStack[m]++;
-				stalls[currentIndex] = ' ';
+			var ret = new char[N];
+			var i = 0;
+			var j = 0;
+			var idxMax = stack.ToList().IndexOf(stack.Max());
+			var c = colorNames[idxMax];
+
+			while(j < N) {
+				ret[i] = c;
+				stack[idxMax]--;
+				if(stack[idxMax] == 0) {
+					idxMax = stack.ToList().IndexOf(stack.Max());
+					c = colorNames[idxMax];
+				}
+				i += 2;
+				if(i >= N) {
+					i = 1;
+				}
+				j++;
 			}
-			return false;
-		}
+			return new string(ret);
 
-		static char[] NextNeighbors(Dictionary<char, int> unicornStack, char m) {
-			var possible = GetPossibleNeighbors(m);
-			var maxV = unicornStack.Where(x => possible.Contains(x.Key)).Max(x => x.Value);
-			return possible
-				.Where(x => unicornStack[x] == maxV)
-				.ToArray();
-		}
-
-		static char[] PriorityOrder(Dictionary<char, int> unicornStack, char m) {
-			var possible = GetPossibleNeighbors(m);
-			return possible
-				.Where(x => unicornStack[x] > 0)
-				.OrderByDescending(x => unicornStack[x])
-				.ToArray();
-		}
-
-		static bool CanBeNeighbor(char m1, char m2) {
-			return GetPossibleNeighbors(m1).Contains(m2);
 		}
 
 		static char[] GetPossibleNeighbors(char maneColor) {
