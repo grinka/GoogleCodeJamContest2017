@@ -2,7 +2,7 @@
 /// Google CodeJam Contest.
 /// Round 1C: Problem A: Ample Syrup
 /// </summary>
-namespace GoogleCodeJam.Contest2017.Round1C.Project1 {
+namespace CodeJam.AmpleSyrup {
 
 	using System;
 	using System.Collections.Generic;
