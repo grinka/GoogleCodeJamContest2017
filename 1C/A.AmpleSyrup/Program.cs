@@ -36,15 +36,28 @@ namespace GoogleCodeJam.Contest2017.Round1C.Project1 {
 
 			decimal sum = 0.0M;
 			// find K max items
-			var widest = stack.OrderByDescending(x => x.AddedSize).Take(K).Max(x => x.r);
-			var baseC = stack.Where(x => x.r >= widest).OrderByDescending(x => x.CoveredSize).First();
-			var addedAizesList = stack
-				.Where(x => (x.idx != baseC.idx && x.r <= baseC.r))
-				.OrderByDescending(x => x.AddedSize)
-				.Take(K - 1);
-			sum = baseC.CoveredSize;
-			foreach(var ac in addedAizesList) {
-				sum += ac.AddedSize;
+			var topPart = stack.OrderByDescending(x => x.AddedSize).Take(K);
+			var maxR = topPart.Max(x => x.r);
+			var minH = topPart.Where(x => x.r == maxR).Min(x => x.h);
+			// there are no difference between the order of the cakes in the top part
+			// we take the cake with bigger radius and smaller height, so it has the smallest
+			// covering surface of all possible bases from the top.
+			// If we found something better (with bigger covering surface), we will just replace
+			// this one with it.
+			var possibleBase = topPart.First(x => x.r == maxR && x.h == minH);
+
+			// now find the possible base in the rest of stack
+			var baseC = stack.Where(x => (!topPart.Contains(x) && x.r >= maxR)).OrderByDescending(x => x.CoveredSize).First();
+
+			// take covered size from the cake with bigger covered surface.
+			sum = Math.Max(baseC.CoveredSize, possibleBase.CoveredSize);
+			// add all the heights except the base cake.
+			// So we skip the "possibleBase" whatever if it's a base
+			// or it's replaced
+			foreach(var ac in topPart) {
+				if(ac != possibleBase) {
+					sum += ac.AddedSize;
+				}
 			}
 			var result = (decimal)(sum) * (decimal)Math.PI;
 
